@@ -1,0 +1,139 @@
+ ;;
+ ;;
+}
+}
+}
+}
+}
+ADDR2LINE=/ifs1/User/yaolei/miniforge3/bin/x86_64-conda-linux-gnu-addr2line
+AR=/ifs1/User/yaolei/miniforge3/bin/x86_64-conda-linux-gnu-ar
+AS=/ifs1/User/yaolei/miniforge3/bin/x86_64-conda-linux-gnu-as
+BASH_FUNC_ml%%=() {  module ml "$@"
+BASH_FUNC_module%%=() {  local _mlredir=1;
+BASH_FUNC__module_raw%%=() {  eval "$(/usr/bin/tclsh '/usr/share/Modules/libexec/modulecmd.tcl' bash "$@")";
+BASH_FUNC_scl%%=() {  if [ "$1" = "load" -o "$1" = "unload" ]; then
+BASH_FUNC_which%%=() {  ( alias;
+build_alias=x86_64-conda-linux-gnu
+BUILD=x86_64-conda-linux-gnu
+ case " $@ " in 
+CC_FOR_BUILD=/ifs1/User/yaolei/miniforge3/bin/x86_64-conda-linux-gnu-cc
+CC=/ifs1/User/yaolei/miniforge3/bin/x86_64-conda-linux-gnu-cc
+_CE_CONDA=
+_CE_M=
+CFLAGS=-march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /ifs1/User/yaolei/miniforge3/include
+CMAKE_ARGS=-DCMAKE_AR=/ifs1/User/yaolei/miniforge3/bin/x86_64-conda-linux-gnu-ar -DCMAKE_CXX_COMPILER_AR=/ifs1/User/yaolei/miniforge3/bin/x86_64-conda-linux-gnu-gcc-ar -DCMAKE_C_COMPILER_AR=/ifs1/User/yaolei/miniforge3/bin/x86_64-conda-linux-gnu-gcc-ar -DCMAKE_RANLIB=/ifs1/User/yaolei/miniforge3/bin/x86_64-conda-linux-gnu-ranlib -DCMAKE_CXX_COMPILER_RANLIB=/ifs1/User/yaolei/miniforge3/bin/x86_64-conda-linux-gnu-gcc-ranlib -DCMAKE_C_COMPILER_RANLIB=/ifs1/User/yaolei/miniforge3/bin/x86_64-conda-linux-gnu-gcc-ranlib -DCMAKE_LINKER=/ifs1/User/yaolei/miniforge3/bin/x86_64-conda-linux-gnu-ld -DCMAKE_STRIP=/ifs1/User/yaolei/miniforge3/bin/x86_64-conda-linux-gnu-strip -DCMAKE_BUILD_TYPE=Release
+CMAKE_PREFIX_PATH=/ifs1/User/yaolei/miniforge3:/ifs1/User/yaolei/miniforge3/x86_64-conda-linux-gnu/sysroot/usr
+CONDA_BUILD_SYSROOT=/ifs1/User/yaolei/miniforge3/x86_64-conda-linux-gnu/sysroot
+CONDA_DEFAULT_ENV=base
+_CONDA_EXE=/ifs1/User/yaolei/miniforge3/bin/conda
+CONDA_EXE=/ifs1/User/yaolei/miniforge3/bin/conda
+CONDA_PREFIX=/ifs1/User/yaolei/miniforge3
+CONDA_PROMPT_MODIFIER=(base) 
+CONDA_PYTHON_EXE=/ifs1/User/yaolei/miniforge3/bin/python
+_CONDA_PYTHON_SYSCONFIGDATA_NAME=_sysconfigdata_x86_64_conda_cos6_linux_gnu
+_CONDA_ROOT=/ifs1/User/yaolei/miniforge3
+CONDA_SHLVL=1
+CONDA_TOOLCHAIN_BUILD=x86_64-conda-linux-gnu
+CONDA_TOOLCHAIN_HOST=x86_64-conda-linux-gnu
+CPLUS_INCLUDE_PATH=/include:
+CPPFLAGS=-DNDEBUG -D_FORTIFY_SOURCE=2 -O2 -isystem /ifs1/User/yaolei/miniforge3/include
+CPP=/ifs1/User/yaolei/miniforge3/bin/x86_64-conda-linux-gnu-cpp
+CXXFILT=/ifs1/User/yaolei/miniforge3/bin/x86_64-conda-linux-gnu-c++filt
+CXXFLAGS=-fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /ifs1/User/yaolei/miniforge3/include
+CXX_FOR_BUILD=/ifs1/User/yaolei/miniforge3/bin/x86_64-conda-linux-gnu-c++
+CXX=/ifs1/User/yaolei/miniforge3/bin/x86_64-conda-linux-gnu-c++
+DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1058/bus
+DEBUG_CFLAGS=-march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-all -fno-plt -Og -g -Wall -Wextra -fvar-tracking-assignments -ffunction-sections -pipe -isystem /ifs1/User/yaolei/miniforge3/include
+DEBUG_CPPFLAGS=-D_DEBUG -D_FORTIFY_SOURCE=2 -Og -isystem /ifs1/User/yaolei/miniforge3/include
+DEBUG_CXXFLAGS=-fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-all -fno-plt -Og -g -Wall -Wextra -fvar-tracking-assignments -ffunction-sections -pipe -isystem /ifs1/User/yaolei/miniforge3/include
+DOCKER_HOST=unix:///run/user/1058/podman/podman.sock
+ELFEDIT=/ifs1/User/yaolei/miniforge3/bin/x86_64-conda-linux-gnu-elfedit
+ else
+ else
+ else
+ esac;
+ eval ${which_declare} ) | /usr/bin/which --tty-only --read-alias --read-functions --show-tilde --show-dot $@
+ eval "module $@";
+ fi
+ fi
+ fi;
+ fi;
+ fi;
+GCC_AR=/ifs1/User/yaolei/miniforge3/bin/x86_64-conda-linux-gnu-gcc-ar
+GCC=/ifs1/User/yaolei/miniforge3/bin/x86_64-conda-linux-gnu-gcc
+GCC_NM=/ifs1/User/yaolei/miniforge3/bin/x86_64-conda-linux-gnu-gcc-nm
+GCC_RANLIB=/ifs1/User/yaolei/miniforge3/bin/x86_64-conda-linux-gnu-gcc-ranlib
+GPROF=/ifs1/User/yaolei/miniforge3/bin/x86_64-conda-linux-gnu-gprof
+GSETTINGS_SCHEMA_DIR_CONDA_BACKUP=
+GSETTINGS_SCHEMA_DIR=/ifs1/User/yaolei/miniforge3/share/glib-2.0/schemas
+GXX=/ifs1/User/yaolei/miniforge3/bin/x86_64-conda-linux-gnu-g++
+HARDWARE_PLATFORM=x86_64
+HISTCONTROL=ignoredups
+HISTSIZE=1000
+HOME=/ifs1/User/yaolei
+host_alias=x86_64-conda-linux-gnu
+HOSTNAME=alimalinux9.5
+HOST=x86_64-conda-linux-gnu
+ if [ $_mlredir -eq 0 ]; then
+ if [ "$MODULES_REDIRECT_OUTPUT" = '0' ]; then
+ if [ "$MODULES_REDIRECT_OUTPUT" = '1' ]; then
+ if [ -n "${MODULES_REDIRECT_OUTPUT+x}" ]; then
+JAVA_HOME=/ifs1/User/yaolei/miniforge3/lib/jvm
+JAVA_LD_LIBRARY_PATH=/ifs1/User/yaolei/miniforge3/lib/jvm/lib/server
+LANG=en_US.UTF-8
+LDFLAGS=-Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now -Wl,--disable-new-dtags -Wl,--gc-sections -Wl,--allow-shlib-undefined -Wl,-rpath,/ifs1/User/yaolei/miniforge3/lib -Wl,-rpath-link,/ifs1/User/yaolei/miniforge3/lib -L/ifs1/User/yaolei/miniforge3/lib
+LD=/ifs1/User/yaolei/miniforge3/bin/x86_64-conda-linux-gnu-ld
+LD_LIBRARY_PATH=/lib:
+LESSOPEN=||/usr/bin/lesspipe.sh %s
+LIBRARY_PATH=/lib:
+LOADEDMODULES=
+LOGNAME=yaolei
+LS_COLORS=rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=01;37;41:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=01;36:*.au=01;36:*.flac=01;36:*.m4a=01;36:*.mid=01;36:*.midi=01;36:*.mka=01;36:*.mp3=01;36:*.mpc=01;36:*.ogg=01;36:*.ra=01;36:*.wav=01;36:*.oga=01;36:*.opus=01;36:*.spx=01;36:*.xspf=01;36:
+MAIL=/var/spool/mail/yaolei
+MAMBA_EXE=/ifs1/User/yaolei/miniforge3/bin/mamba
+MAMBA_ROOT_PREFIX=/ifs1/User/yaolei/miniforge3
+MESON_ARGS=-Dbuildtype=release
+ _mlredir=0
+ _mlredir=0;
+ _mlredir=1
+ _mlredir=1;
+ _mlstatus=$?;
+MODULEPATH=/etc/scl/modulefiles:/usr/share/Modules/modulefiles:/etc/modulefiles:/usr/share/modulefiles
+ _module_raw "$@";
+ _module_raw "$@" 2>&1;
+MODULES_CMD=/usr/share/Modules/libexec/modulecmd.tcl
+MODULESHOME=/usr/share/Modules
+__MODULES_LMINIT=module use --append /usr/share/Modules/modulefiles:module use --append /etc/modulefiles:module use --append /usr/share/modulefiles
+MODULES_RUN_QUARANTINE=LD_LIBRARY_PATH LD_PRELOAD
+MOTD_SHOWN=pam
+NM=/ifs1/User/yaolei/miniforge3/bin/x86_64-conda-linux-gnu-nm
+ *' --no-redirect '*)
+OBJCOPY=/ifs1/User/yaolei/miniforge3/bin/x86_64-conda-linux-gnu-objcopy
+OBJDUMP=/ifs1/User/yaolei/miniforge3/bin/x86_64-conda-linux-gnu-objdump
+OLDPWD=/ifs1/User/yaolei/fMRI_PRS_Project
+PATH=/ifs1/User/yaolei/miniforge3/bin:/ifs1/User/yaolei/miniforge3/condabin:/usr/share/Modules/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/usr/bin:.:/ifs1/Software/bin:.:/ifs1/Software/miniforge3/bin:.:/ifs1/User/yaolei/nanopore/dorado-1.3.0-linux-x64/bin:.:/ifs1/User/yaolei/miniforge3/bin/cuteSV:.:/ifs1/User/yaolei/bio_software/plink:/ifs1/User/yaolei/bio_software/PRSice:/ifs1/User/yaolei/software/dorado-0.7.3-linux-x64/bin:/ifs1/User/yaolei/software/plink2:/ifs1/User/yaolei/bio_software/PRScs
+PWD=/ifs1/User/yaolei/fMRI_PRS_Project/fMRI_PRS_Project
+RANLIB=/ifs1/User/yaolei/miniforge3/bin/x86_64-conda-linux-gnu-ranlib
+READELF=/ifs1/User/yaolei/miniforge3/bin/x86_64-conda-linux-gnu-readelf
+ *' --redirect '*)
+ return $_mlstatus
+RSTUDIO_WHICH_R=/ifs1/User/yaolei/miniforge3/bin/R
+SHELL=/bin/bash
+SHLVL=2
+SIZE=/ifs1/User/yaolei/miniforge3/bin/x86_64-conda-linux-gnu-size
+SSH_CLIENT=223.66.130.161 6739 22
+SSH_CONNECTION=223.66.130.161 6739 172.16.10.88 22
+SSH_TTY=/dev/pts/23
+STRINGS=/ifs1/User/yaolei/miniforge3/bin/x86_64-conda-linux-gnu-strings
+STRIP=/ifs1/User/yaolei/miniforge3/bin/x86_64-conda-linux-gnu-strip
+TERM=xterm-256color
+USER=yaolei
+_=/usr/bin/printenv
+ /usr/bin/scl "$@";
+which_declare=declare -f
+XDG_DATA_DIRS=/ifs1/User/yaolei/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share:/usr/share
+XDG_RUNTIME_DIR=/run/user/1058
+XDG_SESSION_CLASS=user
+XDG_SESSION_ID=3374
+XDG_SESSION_TYPE=tty
+XML_CATALOG_FILES=file:///ifs1/User/yaolei/miniforge3/etc/xml/catalog file:///etc/xml/catalog

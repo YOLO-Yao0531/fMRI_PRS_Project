@@ -1,0 +1,86 @@
+=== python ===
+Python 3.12.12
+
+=== python3 ===
+Python 3.12.12
+
+=== pip ===
+pip 25.3 from /ifs1/User/yaolei/miniforge3/lib/python3.12/site-packages/pip (python 3.12)
+
+=== pip3 ===
+pip 25.3 from /ifs1/User/yaolei/miniforge3/lib/python3.12/site-packages/pip (python 3.12)
+
+=== conda ===
+conda 26.1.1
+
+=== mamba ===
+2.3.3
+
+=== plink ===
+PLINK v1.90b6.21 64-bit (19 Oct 2020)
+
+=== plink2 ===
+PLINK v2.0.0-a.7LM 64-bit Intel (3 Jan 2026)
+
+=== R ===
+R version 4.5.2 (2025-10-31) -- "[Not] Part in a Rumble"
+Copyright (C) 2025 The R Foundation for Statistical Computing
+Platform: x86_64-conda-linux-gnu
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under the terms of the
+GNU General Public License versions 2 or 3.
+For more information about these matters see
+https://www.gnu.org/licenses/.
+
+
+=== PRSice.R ===
+Trying to install optparse in ./lib
+
+=== bcftools ===
+bcftools 1.21
+Using htslib 1.21
+Copyright (C) 2024 Genome Research Ltd.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+
+=== samtools ===
+samtools 1.22.1
+Using htslib 1.22.1
+Copyright (C) 2025 Genome Research Ltd.
+
+Samtools compilation details:
+    Features:       build=configure curses=yes 
+    CC:             /opt/conda/conda-bld/samtools_1752528053426/_build_env/bin/x86_64-conda-linux-gnu-cc
+    CPPFLAGS:       -DNDEBUG -D_FORTIFY_SOURCE=2 -O2 -isystem /ifs1/User/yaolei/miniforge3/include
+    CFLAGS:         -Wall -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /ifs1/User/yaolei/miniforge3/include -fdebug-prefix-map=/opt/conda/conda-bld/samtools_1752528053426/work=/usr/local/src/conda/samtools-1.22.1 -fdebug-prefix-map=/ifs1/User/yaolei/miniforge3=/usr/local/src/conda-prefix
+    LDFLAGS:        -Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now -Wl,--disable-new-dtags -Wl,--gc-sections -Wl,--allow-shlib-undefined -Wl,-rpath,/ifs1/User/yaolei/miniforge3/lib -Wl,-rpath-link,/ifs1/User/yaolei/miniforge3/lib -L/ifs1/User/yaolei/miniforge3/lib
+    HTSDIR:         
+    LIBS:           
+    CURSES_LIB:     -ltinfow -lncursesw
+
+HTSlib compilation details:
+    Features:       build=configure libcurl=yes S3=yes GCS=yes libdeflate=yes lzma=yes bzip2=yes plugins=yes plugin-path=/ifs1/User/yaolei/miniforge3/libexec/htslib htscodecs=1.6.4
+    CC:             /opt/conda/conda-bld/htslib_1752522550715/_build_env/bin/x86_64-conda-linux-gnu-cc
+    CPPFLAGS:       -DNDEBUG -D_FORTIFY_SOURCE=2 -O2 -isystem /ifs1/User/yaolei/miniforge3/include
+    CFLAGS:         -Wall -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /ifs1/User/yaolei/miniforge3/include -fdebug-prefix-map=/opt/conda/conda-bld/htslib_1752522550715/work=/usr/local/src/conda/htslib-1.22.1 -fdebug-prefix-map=/ifs1/User/yaolei/miniforge3=/usr/local/src/conda-prefix -fvisibility=hidden
+    LDFLAGS:        -Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now -Wl,--disable-new-dtags -Wl,--gc-sections -Wl,--allow-shlib-undefined -Wl,-rpath,/ifs1/User/yaolei/miniforge3/lib -Wl,-rpath-link,/ifs1/User/yaolei/miniforge3/lib -L/ifs1/User/yaolei/miniforge3/lib -fvisibility=hidden -rdynamic
+
+HTSlib URL scheme handlers present:
+    built-in:	 file, preload, data
+    S3 Multipart Upload:	 s3w+https, s3w+http, s3w
+    Amazon S3:	 s3+https, s3, s3+http
+    libcurl:	 gophers, smtp, wss, smb, rtsp, tftp, pop3, smbs, imaps, pop3s, ws, ftps, https, ftp, gopher, sftp, imap, http, smtps, scp, dict, mqtt, telnet
+    Google Cloud Storage:	 gs+http, gs+https, gs
+    crypt4gh-needed:	 crypt4gh
+    mem:	 mem
+
+=== tabix ===
+tabix (htslib) 1.22.1
+Copyright (C) 2025 Genome Research Ltd.
+
+=== bgzip ===
+bgzip (htslib) 1.22.1
+Copyright (C) 2025 Genome Research Ltd.
+

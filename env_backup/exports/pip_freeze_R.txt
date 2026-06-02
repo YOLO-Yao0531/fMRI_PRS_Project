@@ -1,0 +1,7 @@
+argcomplete @ file:///home/conda/feedstock_root/build_artifacts/argcomplete_1760974912231/work
+PyYAML @ file:///home/conda/feedstock_root/build_artifacts/pyyaml_1758891825788/work
+setuptools==80.9.0
+toml @ file:///home/conda/feedstock_root/build_artifacts/toml_1763034582148/work
+tomlkit @ file:///home/conda/feedstock_root/build_artifacts/tomlkit_1749127122469/work
+xmltodict @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_xmltodict_1758191083/work
+yq @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_yq_1749219684/work

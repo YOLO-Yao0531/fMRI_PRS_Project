@@ -1,0 +1,37 @@
+# Genotype binary files
+*.bed
+*.bim
+*.fam
+
+# Compressed large files
+*.gz
+
+# LD reference blocks
+ldblk_1kg_eas/
+
+# Raw genomic data (edit this list for your project)
+raw_data/
+raw_genotype/
+input_data/
+WGS/
+WES/
+
+# Credentials and secrets
+*.pem
+*.key
+*.crt
+*.p12
+*.token
+*token*
+*secret*
+*password*
+.env
+
+# Python / notebook cache
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# Logs and tmp
+*.log
+*.tmp

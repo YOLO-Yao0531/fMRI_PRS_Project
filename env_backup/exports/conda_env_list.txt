@@ -1,0 +1,11 @@
+
+# conda environments:
+#
+# * -> active
+# + -> frozen
+base                 *   /ifs1/User/yaolei/miniforge3
+R                        /ifs1/User/yaolei/miniforge3/envs/R
+genome                   /ifs1/User/yaolei/miniforge3/envs/genome
+human                    /ifs1/User/yaolei/miniforge3/envs/human
+r_env                    /ifs1/User/yaolei/miniforge3/envs/r_env
+
