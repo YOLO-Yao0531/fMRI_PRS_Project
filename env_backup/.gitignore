@@ -1,18 +1,38 @@
-# Genotype binary files
+# Genotype binary files (never back up raw target genotype data)
 *.bed
 *.bim
 *.fam
+*.pgen
+*.pvar
+*.psam
 
-# Compressed large files
+# GWAS summary statistics and compressed large files
 *.gz
+*.bgz
+*.zip
+*.tar
+*.tar.gz
+*GWAS*
+*gwas*
+*sumstats*
+*summary_statistics*
 
-# LD reference blocks
+# LD reference blocks / reference panels
 ldblk_1kg_eas/
+ldblk_1kg_eur/
+ldblk_1kg_afr/
+ldblk_1kg_amr/
+ldblk_1kg_sas/
+LD_reference/
+reference_panel/
 
-# Raw genomic data (edit this list for your project)
+# Raw genomic or phenotype data directories (edit for your project)
 raw_data/
 raw_genotype/
+genotype/
+gwas/
 input_data/
+phenotype/
 WGS/
 WES/
 
