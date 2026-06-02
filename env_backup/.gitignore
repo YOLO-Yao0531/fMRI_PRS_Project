@@ -55,3 +55,26 @@ __pycache__/
 # Logs and tmp
 *.log
 *.tmp
+# =========================
+# Generated environment metadata
+# =========================
+
+configs/*.txt
+
+exports/conda_env_#.yml
+exports/conda_env_#.yml.err
+
+exports/conda_explicit_#.txt
+exports/conda_explicit_#.txt.err
+
+exports/pip_freeze_#.txt
+exports/pip_freeze_#.txt.err
+
+exports/conda_list_active.txt
+
+previous_generated_metadata/
+
+versions/*.tsv
+versions/*.txt
+
+lib/
