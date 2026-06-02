@@ -6,12 +6,60 @@ set -euo pipefail
 # GWAS summary statistics, LD reference blocks, or other large/raw data files.
 
 OUTPUT_DIR="${1:-env_backup}"
+OUTPUT_PREEXISTED=false
+[[ -d "$OUTPUT_DIR" ]] && OUTPUT_PREEXISTED=true
+
+log() { echo "[$(date +'%F %T')] $*"; }
+
+skip_large_or_sensitive_backup_file() {
+  local file="$1"
+  case "$file" in
+    *.bed|*.bim|*.fam|*.pgen|*.pvar|*.psam|*.gz|*.bgz|*.zip|*.tar|*.tar.gz|*.pem|*.key|*.token|*.env) return 0 ;;
+    *ldblk_1kg_eas*|*ldblk_1kg_eur*|*ldblk_1kg_afr*|*ldblk_1kg_amr*|*ldblk_1kg_sas*) return 0 ;;
+    *GWAS*|*gwas*|*sumstats*|*summary_statistics*|*raw_data*|*raw_genotype*|*genotype*|*phenotype*) return 0 ;;
+  esac
+  [[ -f "$file" ]] || return 0
+  [[ $(wc -c < "$file") -le 10485760 ]] || return 0
+  return 1
+}
+
+preserve_existing_metadata() {
+  local preserve_dir="$OUTPUT_DIR/previous_generated_metadata/$(date +'%Y%m%d_%H%M%S')"
+  local root_file src rel dest
+  mkdir -p "$preserve_dir"
+
+  for root_file in \
+    README.md .gitignore prs_environment_summary.md \
+    run_prsice_template.sh run_prscs_template.sh restore_prs_environment.sh install_local.sh; do
+    src="$OUTPUT_DIR/$root_file"
+    if [[ -f "$src" ]] && ! skip_large_or_sensitive_backup_file "$src"; then
+      mkdir -p "$preserve_dir/$(dirname "$root_file")"
+      cp -p "$src" "$preserve_dir/$root_file"
+    fi
+  done
+
+  for src_dir in configs exports versions logs scripts; do
+    [[ -d "$OUTPUT_DIR/$src_dir" ]] || continue
+    while IFS= read -r -d '' src; do
+      rel="${src#$OUTPUT_DIR/}"
+      [[ "$rel" == previous_generated_metadata/* ]] && continue
+      skip_large_or_sensitive_backup_file "$src" && continue
+      dest="$preserve_dir/$rel"
+      mkdir -p "$(dirname "$dest")"
+      cp -p "$src" "$dest"
+    done < <(find "$OUTPUT_DIR/$src_dir" -type f -print0)
+  done
+
+  log "Existing env backup metadata preserved under: $preserve_dir"
+}
+
 mkdir -p "$OUTPUT_DIR"/{configs,exports,versions,logs,scripts}
+if [[ "$OUTPUT_PREEXISTED" == true ]]; then
+  preserve_existing_metadata
+fi
 
 WARNINGS_FILE="$OUTPUT_DIR/logs/warnings.log"
 : > "$WARNINGS_FILE"
-
-log() { echo "[$(date +'%F %T')] $*"; }
 warn() { log "WARN: $*" | tee -a "$WARNINGS_FILE"; }
 
 safe_cmd() {
@@ -457,6 +505,7 @@ It stores software metadata and install/restore scripts only. It deliberately do
 - `run_prscs_template.sh` — standard PRS-CS run template with placeholder paths.
 - `restore_prs_environment.sh` — restore script for a new Linux server.
 - `install_local.sh` — compatibility wrapper that calls `restore_prs_environment.sh`.
+- `previous_generated_metadata/` — small previously generated metadata preserved when rerunning into an existing backup folder.
 - `.gitignore` — excludes genotype, GWAS, LD reference, raw data, compressed archives, and secrets.
 
 ## Generate this backup on the remote server
@@ -483,7 +532,7 @@ bash restore_prs_environment.sh
 
 ## GitHub upload steps
 
-Before pushing, inspect `configs/env_vars_full.review_before_push.txt` and remove any token/password/private path if present.
+Before pushing, inspect `configs/env_vars_full.review_before_push.txt` and remove any token/password/private path if present. If you reran the backup in an existing folder, review `previous_generated_metadata/` as well; it contains only small metadata snapshots and intentionally skips large genotype/GWAS/LD files.
 
 ```bash
 cd env_backup

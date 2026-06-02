@@ -14,5 +14,6 @@ bash backup_env.sh
 - `restore_prs_environment.sh`：新 Linux 服务器恢复脚本
 - conda/mamba 环境导出、pip 包、PATH、软件路径和版本、shell 配置备份
 - `.gitignore`：排除 bed/bim/fam、GWAS、LD reference、原始基因数据和密钥
+- 如果在已有 `env_backup/` 中重新运行，会将旧的轻量级元数据保存到 `previous_generated_metadata/`，避免覆盖已上传内容
 
 该脚本只记录路径模板和软件配置，不复制大型数据文件。
