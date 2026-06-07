@@ -1,62 +1,80 @@
 #!/usr/bin/env Rscript
-suppressWarnings(suppressMessages({
-  library(data.table)
-}))
 
 args <- commandArgs(trailingOnly = TRUE)
-get_arg <- function(key, default=NULL){
+get_arg <- function(key, default = NULL) {
   idx <- which(args == key)
-  if(length(idx)==0) return(default)
-  args[idx+1]
+  if (length(idx) == 0) return(default)
+  if (idx == length(args)) stop("Missing value for argument: ", key)
+  args[idx + 1]
 }
 
-score_file <- get_arg("--score_profile")
-pheno_file <- get_arg("--pheno")
+score_file <- get_arg("--score_profile", "SCZ_PRSCS_score.profile")
+pheno_file <- get_arg("--pheno", "SCZ.txt")
 out_z <- get_arg("--out_z", "SCZ_PRSCS_score_z.txt")
 out_merged <- get_arg("--out_merged", "SCZ_PRSCS_pheno_merged.txt")
 
-if(is.null(score_file) || is.null(pheno_file)){
-  stop("Usage: Rscript prs_postprocess.R --score_profile <file.profile> --pheno <SCZ.txt> [--out_z <file>] [--out_merged <file>]")
+if (!file.exists(score_file)) {
+  stop("Score profile file not found: ", score_file)
 }
 
-score <- fread(score_file)
-if(!all(c("FID","IID") %in% names(score))) stop("score profile missing FID/IID")
+if (!file.exists(pheno_file)) {
+  stop("Phenotype file not found: ", pheno_file)
+}
 
-# PLINK profile may provide SCORE or SCORESUM (or both).
+score <- read.table(
+  score_file,
+  header = TRUE,
+  stringsAsFactors = FALSE,
+  check.names = FALSE,
+  colClasses = "character"
+)
+if (!all(c("FID", "IID") %in% names(score))) {
+  stop("Score profile must include FID and IID columns.")
+}
+
+# PLINK 1.9 profile output is commonly SCORE or SCORESUM.
+# PLINK 2 output can use SCORE1_SUM.
 prs_col <- NULL
-for(cn in c("SCORE","SCORESUM","SCORE1_SUM")){
-  if(cn %in% names(score)) { prs_col <- cn; break }
-}
-if(is.null(prs_col)) stop("No SCORE/SCORESUM/SCORE1_SUM found in profile file")
-
-score[, PRS := get(prs_col)]
-score[, PRS_Z := as.numeric(scale(PRS))]
-out_dt <- score[, .(FID, IID, PRS, PRS_Z)]
-fwrite(out_dt, out_z, sep="\t")
-
-pheno <- fread(pheno_file)
-if(!all(c("FID","IID") %in% names(pheno))) stop("phenotype file must include FID and IID")
-merged <- merge(pheno, out_dt, by=c("FID","IID"), all=FALSE)
-fwrite(merged, out_merged, sep="\t")
-
-# Simple logistic regression checks
-# Model 1: SCZ ~ PRS_Z
-if("SCZ" %in% names(merged)){
-  fit1 <- glm(SCZ ~ PRS_Z, data=merged, family=binomial())
-  cat("\n=== Logistic regression: SCZ ~ PRS_Z ===\n")
-  print(summary(fit1))
-
-  pcs <- paste0("PC",1:10)
-  if(all(pcs %in% names(merged))){
-    form2 <- as.formula(paste("SCZ ~ PRS_Z +", paste(pcs, collapse=" + ")))
-    fit2 <- glm(form2, data=merged, family=binomial())
-    cat("\n=== Logistic regression: SCZ ~ PRS_Z + PC1..PC10 ===\n")
-    print(summary(fit2))
-  } else {
-    cat("\nPC1-PC10 not all found; skipped covariate-adjusted model.\n")
+for (cn in c("SCORE", "SCORESUM", "SCORE1_SUM")) {
+  if (cn %in% names(score)) {
+    prs_col <- cn
+    break
   }
-} else {
-  cat("\nColumn 'SCZ' not found in merged phenotype; skipped logistic regression.\n")
 }
 
-cat("\nWrote:\n", out_z, "\n", out_merged, "\n", sep="")
+if (is.null(prs_col)) {
+  stop("No PRS score column found. Expected one of: SCORE, SCORESUM, SCORE1_SUM.")
+}
+
+score$PRS <- as.numeric(score[[prs_col]])
+if (all(is.na(score$PRS))) {
+  stop("Selected PRS column contains no numeric values: ", prs_col)
+}
+
+score$PRS_Z <- as.numeric(scale(score$PRS))
+out_score <- score[, c("FID", "IID", "PRS", "PRS_Z")]
+write.table(out_score, out_z, sep = "\t", quote = FALSE, row.names = FALSE)
+
+pheno <- read.table(
+  pheno_file,
+  header = TRUE,
+  stringsAsFactors = FALSE,
+  check.names = FALSE,
+  colClasses = "character"
+)
+if (!all(c("FID", "IID") %in% names(pheno))) {
+  stop("Phenotype file must include FID and IID columns.")
+}
+
+merged <- merge(pheno, out_score, by = c("FID", "IID"), all = FALSE)
+write.table(merged, out_merged, sep = "\t", quote = FALSE, row.names = FALSE)
+
+if (nrow(merged) == 0) {
+  warning("Merged output has 0 rows. Check whether FID/IID match between ", score_file, " and ", pheno_file, ".")
+}
+
+cat("Input score file: ", score_file, "\n", sep = "")
+cat("PRS column used: ", prs_col, "\n", sep = "")
+cat("Input phenotype file: ", pheno_file, "\n", sep = "")
+cat("Wrote z-scored PRS: ", out_z, " (", nrow(out_score), " samples)\n", sep = "")
+cat("Wrote merged phenotype: ", out_merged, " (", nrow(merged), " matched samples)\n", sep = "")
