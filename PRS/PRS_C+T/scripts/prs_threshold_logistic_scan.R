@@ -1,9 +1,5 @@
 #!/usr/bin/env Rscript
 
-# Re-run PT-wise logistic regression from PRSice all-score output:
-#   SCZ ~ PRS + PC1 + ... + PC10
-# Uses base R only and computes Nagelkerke pseudo-R2 manually.
-
 args <- commandArgs(trailingOnly = TRUE)
 score_file <- if (length(args) >= 1) args[[1]] else NA_character_
 pheno_file <- if (length(args) >= 2) args[[2]] else "SCZ.txt"
@@ -66,7 +62,6 @@ if (use_cov) {
   pc_cols <- character(0)
 }
 
-# Force common binary encodings to 0/1 for logistic regression.
 u <- sort(unique(dat$PHENO[!is.na(dat$PHENO)]))
 if (all(u %in% c(1, 2))) {
   dat$PHENO <- ifelse(dat$PHENO == 2, 1, 0)

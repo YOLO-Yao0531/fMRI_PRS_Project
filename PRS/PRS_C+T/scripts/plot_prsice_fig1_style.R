@@ -1,15 +1,5 @@
 #!/usr/bin/env Rscript
 
-# Draw a two-panel PRSice figure similar to the supplied manuscript example:
-#   A) bar plot of representative PT values, with bar color = -log10(model P)
-#   B) high-resolution continuous PT plot, y = -log10(model P)
-#
-# Inputs by default:
-#   PRSice_SCZ_highres.prsice
-# Outputs by default:
-#   PRSice_SCZ_highres_fig1_style.png
-#   PRSice_SCZ_highres_fig1_style.pdf
-
 args <- commandArgs(trailingOnly = TRUE)
 prsice_file <- if (length(args) >= 1) args[[1]] else "PRSice_SCZ_highres.prsice"
 out_prefix <- if (length(args) >= 2) args[[2]] else "PRSice_SCZ_highres_fig1_style"
@@ -38,7 +28,6 @@ x$NEGLOG10P <- -log10(pmax(x$P_NUM, .Machine$double.xmin))
 
 best <- x[which.max(x$R2_NUM), ]
 
-# Representative bars: manuscript-like levels plus the data-driven best PT.
 bar_levels_env <- Sys.getenv("BAR_PTS", unset = "0.001,0.05,0.1,0.2,0.3,best,0.4,0.5")
 bar_tokens <- trimws(strsplit(bar_levels_env, ",", fixed = TRUE)[[1]])
 bar_levels <- vapply(bar_tokens, function(z) {
@@ -48,9 +37,7 @@ bar_levels <- vapply(bar_tokens, function(z) {
 bar_levels <- unique(bar_levels[is.finite(bar_levels)])
 bar_levels <- bar_levels[bar_levels >= min(x$PT_NUM) & bar_levels <= max(x$PT_NUM)]
 
-nearest_rows <- lapply(bar_levels, function(pt) {
-  x[which.min(abs(x$PT_NUM - pt)), , drop = FALSE]
-})
+nearest_rows <- lapply(bar_levels, function(pt) x[which.min(abs(x$PT_NUM - pt)), , drop = FALSE])
 bar_dat <- do.call(rbind, nearest_rows)
 bar_dat <- bar_dat[!duplicated(bar_dat$PT_NUM), ]
 
@@ -87,7 +74,6 @@ plot_figure <- function(device_fun, filename, width, height, res = NULL) {
   text(bp, bar_dat$R2_NUM + ymax * 0.03,
        labels = signif(bar_dat$P_NUM, 2), srt = 45, adj = 0, cex = 0.8)
 
-  # Compact color legend for -log10(P)
   legend_vals <- pretty(range(bar_dat$NEGLOG10P, na.rm = TRUE), n = 3)
   legend("right", title = expression(paste(-log[10], " model\nP-value")),
          legend = round(legend_vals, 2), fill = make_cols(legend_vals),
@@ -100,7 +86,6 @@ plot_figure <- function(device_fun, filename, width, height, res = NULL) {
        ylab = expression(paste("PRS model fit: ", -log[10], "(", italic(P), ")")),
        main = "B")
 
-  # Overlay a green binned trend line to mimic the high-resolution trend in the example.
   line_n <- min(80, max(10, floor(nrow(x) / 100)))
   breaks <- unique(round(seq(1, nrow(x), length.out = line_n)))
   trend <- x[breaks, ]

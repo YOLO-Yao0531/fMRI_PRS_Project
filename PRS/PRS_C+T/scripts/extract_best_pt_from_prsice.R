@@ -1,15 +1,10 @@
 #!/usr/bin/env Rscript
 
-# Extract the PRSice threshold with the largest Nagelkerke/model-fit R2.
-# Uses base R only, so it can run on minimal cluster R installations.
-
 args <- commandArgs(trailingOnly = TRUE)
 infile <- if (length(args) >= 1) args[[1]] else "PRSice_SCZ_highres.prsice"
 outfile <- if (length(args) >= 2) args[[2]] else "best_PT_summary.txt"
 
-if (!file.exists(infile)) {
-  stop("Input .prsice file not found: ", infile)
-}
+if (!file.exists(infile)) stop("Input .prsice file not found: ", infile)
 
 x <- read.table(infile, header = TRUE, sep = "", stringsAsFactors = FALSE,
                 check.names = FALSE, comment.char = "")

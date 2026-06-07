@@ -2,14 +2,12 @@
 set -euo pipefail
 
 # Rebuild QC'ed Asian PGC3 SCZ GWAS summary statistics for PRSice/PRS-CS.
-#
-# This script intentionally detects columns by header names instead of hard-coded
-# column numbers. The previous column-number workflow accidentally filtered on
-# PVAL > 0.8, which makes PT scans from 0.0001 to 0.5 impossible.
+# Columns are detected by header name to avoid accidental PVAL filtering.
 
 RAW="${RAW:-PGC3_SCZ_wave3.asian.autosome.public.v3.vcf.tsv.gz}"
 OUT="${OUT:-PGC_SCZ.QC.gz}"
 INFO_MIN="${INFO_MIN:-0.8}"
+MAF_MIN="${MAF_MIN:-0.01}"
 REMOVE_AMBIGUOUS="${REMOVE_AMBIGUOUS:-true}"
 
 if [[ ! -f "${RAW}" ]]; then
@@ -20,7 +18,7 @@ fi
 tmp_out="${OUT}.tmp"
 rm -f "${tmp_out}"
 
-gzip -dc "${RAW}" | awk -v info_min="${INFO_MIN}" -v remove_ambiguous="${REMOVE_AMBIGUOUS}" '
+gzip -dc "${RAW}" | awk -v info_min="${INFO_MIN}" -v maf_min="${MAF_MIN}" -v remove_ambiguous="${REMOVE_AMBIGUOUS}" '
 BEGIN { OFS = "\t" }
 /^##/ { next }
 NR == 1 || /^#CHROM/ {
@@ -30,15 +28,10 @@ NR == 1 || /^#CHROM/ {
     h[key] = i
   }
 
-  required[1] = "CHROM"
-  required[2] = "ID"
-  required[3] = "POS"
-  required[4] = "A1"
-  required[5] = "A2"
-  required[6] = "BETA"
-  required[7] = "SE"
-  required[8] = "PVAL"
-  for (i = 1; i <= 8; i++) {
+  required[1] = "CHROM"; required[2] = "ID"; required[3] = "POS"; required[4] = "A1"
+  required[5] = "A2"; required[6] = "FCAS"; required[7] = "FCON"; required[8] = "IMPINFO"
+  required[9] = "BETA"; required[10] = "SE"; required[11] = "PVAL"; required[12] = "NCAS"; required[13] = "NCON"
+  for (i = 1; i <= 13; i++) {
     if (!(required[i] in h)) {
       print "ERROR: missing required column " required[i] > "/dev/stderr"
       exit 1
@@ -56,25 +49,28 @@ NR == 1 || /^#CHROM/ {
   pos = $(h["POS"])
   a1 = toupper($(h["A1"]))
   a2 = toupper($(h["A2"]))
+  fcas = $(h["FCAS"]) + 0
+  fcon = $(h["FCON"]) + 0
+  imp = $(h["IMPINFO"]) + 0
   beta = $(h["BETA"])
-  se = $(h["SE"])
-  pval = $(h["PVAL"])
-
-  fcas = ("FCAS" in h ? $(h["FCAS"]) : "NA")
-  fcon = ("FCON" in h ? $(h["FCON"]) : "NA")
-  imp = ("IMPINFO" in h ? $(h["IMPINFO"]) : "NA")
-  ncas = ("NCAS" in h ? $(h["NCAS"]) : "NA")
-  ncon = ("NCON" in h ? $(h["NCON"]) : "NA")
+  se = $(h["SE"]) + 0
+  pval = $(h["PVAL"]) + 0
+  ncas = $(h["NCAS"]) + 0
+  ncon = $(h["NCON"]) + 0
   neff = ("NEFF" in h ? $(h["NEFF"]) : "NA")
 
   raw_n++
-  if (chr == "" || id == "" || pos == "" || a1 == "" || a2 == "" || beta == "" || se == "" || pval == "") { missing_n++; next }
+  if (chr == "" || id == "" || pos == "" || a1 == "" || a2 == "" || beta == "" || se <= 0) { missing_n++; next }
   if (chr !~ /^([1-9]|1[0-9]|2[0-2])$/) { chr_n++; next }
   if (a1 !~ /^[ACGT]$/ || a2 !~ /^[ACGT]$/) { allele_n++; next }
   if (remove_ambiguous == "true" && ((a1 == "A" && a2 == "T") || (a1 == "T" && a2 == "A") || (a1 == "G" && a2 == "C") || (a1 == "C" && a2 == "G"))) { ambig_n++; next }
-  if (("IMPINFO" in h) && (imp == "" || imp == "NA" || imp + 0 < info_min)) { info_n++; next }
-  if (pval + 0 <= 0 || pval + 0 > 1) { pval_n++; next }
-  if (se + 0 <= 0) { se_n++; next }
+  if (imp < info_min) { info_n++; next }
+  if (pval <= 0 || pval > 1) { pval_n++; next }
+  if (ncas + ncon <= 0) { sample_n++; next }
+
+  freq = (fcas * ncas + fcon * ncon) / (ncas + ncon)
+  maf = (freq <= 0.5 ? freq : 1 - freq)
+  if (maf < maf_min) { maf_n++; next }
   if (seen[id]++) { dup_n++; next }
 
   kept_n++
@@ -89,7 +85,8 @@ END {
   print "excluded_ambiguous", ambig_n + 0 > "/dev/stderr"
   print "excluded_low_info", info_n + 0 > "/dev/stderr"
   print "excluded_bad_pval", pval_n + 0 > "/dev/stderr"
-  print "excluded_bad_se", se_n + 0 > "/dev/stderr"
+  print "excluded_bad_sample_size", sample_n + 0 > "/dev/stderr"
+  print "excluded_low_maf", maf_n + 0 > "/dev/stderr"
   print "excluded_duplicate_id", dup_n + 0 > "/dev/stderr"
   print "kept", kept_n + 0 > "/dev/stderr"
 }
@@ -100,10 +97,7 @@ mv "${tmp_out}" "${OUT}"
 echo "Created: ${OUT}"
 echo "P-value distribution:"
 gzip -dc "${OUT}" | awk '
-NR == 1 {
-  for (i = 1; i <= NF; i++) if ($i == "PVAL") p = i
-  next
-}
+NR == 1 { for (i = 1; i <= NF; i++) if ($i == "PVAL") p = i; next }
 {
   pv = $p + 0
   n++
